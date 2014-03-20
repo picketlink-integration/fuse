@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.security.auth.login.LoginException;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
@@ -38,6 +39,9 @@ import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
 
 /**
  * Unit test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor}
+ *
+ * Example adapted from the ASLv2 licensed:
+ * https://github.com/bibryam/camel-message-routing-examples/blob/master/routing-different-destinations
  *
  * @author Anil Saldhana
  * @since March 20, 2014
@@ -61,7 +65,6 @@ public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
     @Inject
     private PicketLinkCamelProcessor picketLinkCamelProcessor;
 
-
     @Before
     public void setup() throws Exception {
         super.setUp();
@@ -80,7 +83,7 @@ public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
         mockElectronics.expectedMessageCount(0);
         mockOther.expectedMessageCount(0);
 
-        Map<String,Object> headers = new HashMap<String, Object>();
+        Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("FileName", "grocery.txt");
         headers.put("username", "admin");
         headers.put("password", "adminpwd");
@@ -95,13 +98,12 @@ public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
         mockElectronics.expectedBodiesReceived("electronics order");
         mockOther.expectedMessageCount(0);
 
-        Map<String,Object> groceryHeaders = new HashMap<String, Object>();
+        Map<String, Object> groceryHeaders = new HashMap<String, Object>();
         groceryHeaders.put("FileName", "grocery.txt");
         groceryHeaders.put("username", "admin");
         groceryHeaders.put("password", "adminpwd");
 
-
-        Map<String,Object> electronicsHeaders = new HashMap<String, Object>();
+        Map<String, Object> electronicsHeaders = new HashMap<String, Object>();
         electronicsHeaders.put("FileName", "electronics.txt");
         electronicsHeaders.put("username", "admin");
         electronicsHeaders.put("password", "adminpwd");
@@ -117,7 +119,7 @@ public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
         mockElectronics.expectedMessageCount(0);
         mockOther.expectedMessageCount(1);
 
-        Map<String,Object> headers = new HashMap<String, Object>();
+        Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("FileName", "invalidorder.txt");
         headers.put("username", "admin");
         headers.put("password", "adminpwd");
@@ -126,21 +128,45 @@ public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+    @Test
+    public void sendGroceryAndElectronicsOrderWithInvalidUser() throws Exception {
+        mockGrocery.expectedMessageCount(0);
+        mockElectronics.expectedMessageCount(0);
+        mockOther.expectedMessageCount(0);
+
+        Map<String, Object> groceryHeaders = new HashMap<String, Object>();
+        groceryHeaders.put("FileName", "grocery.txt");
+        groceryHeaders.put("username", "BADUSER");
+        groceryHeaders.put("password", "LOUSY");
+
+        Map<String, Object> electronicsHeaders = new HashMap<String, Object>();
+        electronicsHeaders.put("FileName", "electronics.txt");
+        electronicsHeaders.put("username", "BADUSER");
+        electronicsHeaders.put("password", "adminpwd");
+
+        try {
+            producerTemplate.sendBodyAndHeaders("grocery order", groceryHeaders);
+        } catch (Exception e) {
+            assertTrue(e.getCause() instanceof LoginException);
+        }
+        try{
+            producerTemplate.sendBodyAndHeaders("electronics order", electronicsHeaders);
+        } catch (Exception e) {
+            assertTrue(e.getCause() instanceof LoginException);
+        }
+        assertMockEndpointsSatisfied();
+    }
+
     // Private/Protected Methods
-    protected RouteBuilder createRouteBuilder() throws Exception{
+    protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
                 assertNotNull(picketLinkCamelProcessor);
 
-                from("file://source")
-                        .process(picketLinkCamelProcessor)
-                        .choice()
-                        .when(simple("${in.header.FileName} contains 'grocery.txt'"))
-                        .to("file://grocery")
-                        .when(simple("${in.header.FileName} contains 'electronics.txt'"))
-                        .to("file://electronics")
-                        .otherwise()
+                from("file://source").process(picketLinkCamelProcessor).choice()
+                        .when(simple("${in.header.FileName} contains 'grocery.txt'")).to("file://grocery")
+                        .when(simple("${in.header.FileName} contains 'electronics.txt'")).to("file://electronics").otherwise()
                         .to("log://lowpriority");
             }
         };
