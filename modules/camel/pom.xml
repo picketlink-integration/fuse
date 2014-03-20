@@ -18,12 +18,75 @@
          <url>http://www.apache.org/licenses/LICENSE-2.0</url>
       </license>
    </licenses>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <camel.version>2.11.1</camel.version>
+        <!-- PicketLink dependency versions -->
+        <version.picketlink.javaee.bom>2.6.0.CR1</version.picketlink.javaee.bom>
+        <junit.version>4.10</junit.version>
+        <weld.version>2.1.0.Final</weld.version>
+    </properties>
    <organization>
       <name>JBoss Inc.</name>
       <url>http://www.jboss.org</url>
    </organization>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Dependency Management for PicketLink and Java EE 6.0. -->
+            <dependency>
+                <groupId>org.picketlink</groupId>
+                <artifactId>picketlink-javaee-6.0-with-deltaspike</artifactId>
+                <version>${version.picketlink.javaee.bom}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <!-- JBoss Weld -->
+            <dependency>
+                <groupId>org.jboss.weld</groupId>
+                <artifactId>weld-core-bom</artifactId>
+                <version>${weld.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
    <dependencies>
+       <!-- Import the PicketLink API, we deploy this as library with the application,
+    and can compile against it -->
+       <dependency>
+           <groupId>org.picketlink</groupId>
+           <artifactId>picketlink-api</artifactId>
+       </dependency>
+
+       <!-- Import the PicketLink implementation, we deploy this as library with the application,
+   but can't compile against it -->
+       <dependency>
+           <groupId>org.picketlink</groupId>
+           <artifactId>picketlink-impl</artifactId>
+       </dependency>
+
+       <!-- Import the PicketLink IDM API, we deploy this as library with the application,
+   and can compile against it -->
+       <dependency>
+           <groupId>org.picketlink</groupId>
+           <artifactId>picketlink-idm-api</artifactId>
+       </dependency>
+
+       <!-- Import the PicketLink IDM API, we deploy this as library with the application,
+   and can compile against it -->
+       <dependency>
+           <groupId>org.picketlink</groupId>
+           <artifactId>picketlink-idm-impl</artifactId>
+       </dependency>
+
+       <!-- Import the PicketLink IDM Simple Schema, which provides some built-in JPA entities for
+   the sample model -->
+       <dependency>
+           <groupId>org.picketlink</groupId>
+           <artifactId>picketlink-idm-simple-schema</artifactId>
+       </dependency>
+
       <dependency>
          <groupId>org.jboss.logging</groupId>
          <artifactId>jboss-logging</artifactId>
@@ -33,6 +96,60 @@
          <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
       </dependency>
+       <dependency>
+           <groupId>org.apache.camel</groupId>
+           <artifactId>camel-core</artifactId>
+           <version>${camel.version}</version>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.camel</groupId>
+           <artifactId>camel-test</artifactId>
+           <version>${camel.version}</version>
+           <scope>test</scope>
+       </dependency>
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+           <version>${junit.version}</version>
+           <scope>test</scope>
+      </dependency>
+       <dependency>
+           <groupId>org.jboss.weld.se</groupId>
+           <artifactId>weld-se</artifactId>
+           <scope>test</scope>
+           <exclusions>
+               <exclusion>
+                   <artifactId>slf4j-ext</artifactId>
+                   <groupId>org.slf4j</groupId>
+               </exclusion>
+               <exclusion>
+                   <artifactId>slf4j-api</artifactId>
+                   <groupId>org.slf4j</groupId>
+               </exclusion>
+           </exclusions>
+       </dependency>
+       <dependency>
+           <groupId>org.jboss.weld</groupId>
+           <artifactId>weld-core</artifactId>
+           <scope>test</scope>
+           <exclusions>
+               <exclusion>
+                   <artifactId>slf4j-ext</artifactId>
+                   <groupId>org.slf4j</groupId>
+               </exclusion>
+               <exclusion>
+                   <artifactId>slf4j-api</artifactId>
+                   <groupId>org.slf4j</groupId>
+               </exclusion>
+           </exclusions>
+       </dependency>
+       <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-entitymanager</artifactId>
+           <version>4.1.9.Final</version>
+           <scope>test</scope>
+       </dependency>
+
    </dependencies>
 
 </project>
