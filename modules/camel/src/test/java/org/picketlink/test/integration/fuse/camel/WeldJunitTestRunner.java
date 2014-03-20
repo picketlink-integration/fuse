@@ -45,8 +45,6 @@ public class WeldJunitTestRunner extends BlockJUnit4ClassRunner {
     }
     @Override
     protected Object createTest() throws Exception {
-        final Object test = container.instance().select(klass).get();
-
-        return test;
+        return container.instance().select(klass).get();
     }
 }
