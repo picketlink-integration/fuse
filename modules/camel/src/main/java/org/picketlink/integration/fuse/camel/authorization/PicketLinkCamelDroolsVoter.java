@@ -27,6 +27,7 @@ import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
+import org.picketlink.idm.RelationshipManager;
 import org.picketlink.idm.model.IdentityType;
 import org.picketlink.idm.permission.spi.PermissionVoter;
 
@@ -66,7 +67,14 @@ public class PicketLinkCamelDroolsVoter implements PermissionVoter {
 
         PermissionCheck check = new PermissionCheck(partitionManager, recipient, resource, operation);
 
+        IdentityManager idm = partitionManager.createIdentityManager();
+        RelationshipManager relation = partitionManager.createRelationshipManager();
+
+        session.insert(idm);
+        session.insert(relation);
+        
         session.insert(camelMessage);
+        session.insert(partitionManager.createIdentityManager());
 
         session.insert(recipient);
         session.insert(check);
