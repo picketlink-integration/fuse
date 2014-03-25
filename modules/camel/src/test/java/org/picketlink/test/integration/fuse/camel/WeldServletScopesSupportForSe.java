@@ -36,15 +36,15 @@ import org.jboss.weld.context.unbound.RequestContextImpl;
 import org.jboss.weld.manager.BeanManagerImpl;
 
 /**
- * An ugly hacked up {@link javax.enterprise.inject.spi.Extension} for Weld so
- * that RequestScoped and SessionScoped are active in the JUnit/JavaSE environment.
+ * An ugly hacked up {@link javax.enterprise.inject.spi.Extension} for Weld so that RequestScoped and SessionScoped are active
+ * in the JUnit/JavaSE environment.
  *
  * Remember, weld-se does not support either the request scope or the session scope.
  *
  * This is used for JUnit testing only. So no harm done.
  *
- * This extension is loaded via the JDK Service Loader Mechanism and look for a
- * file in META-INF/services directory called javax.enterprise.inject.spi.Extension
+ * This extension is loaded via the JDK Service Loader Mechanism and look for a file in META-INF/services directory called
+ * javax.enterprise.inject.spi.Extension
  *
  * @author Anil Saldhana
  * @since March 20, 2014
@@ -68,7 +68,7 @@ public class WeldServletScopesSupportForSe implements Extension {
         } else {
             beanManagerImpl = (BeanManagerImpl) beanManager;
         }
-        //Ugly hack to make the "contexts" map inside the BeanManagerImpl accessible
+        // Ugly hack to make the "contexts" map inside the BeanManagerImpl accessible
         Field f = beanManagerImpl.getClass().getDeclaredField("contexts"); // NoSuchFieldException
         f.setAccessible(true);
         Map<Class<? extends Annotation>, List<Context>> contexts = (Map<Class<? extends Annotation>, List<Context>>) f

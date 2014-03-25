@@ -34,8 +34,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * An implementation of {@link org.picketlink.idm.permission.spi.PermissionVoter}
- * based on Drools
+ * An implementation of {@link org.picketlink.idm.permission.spi.PermissionVoter} based on Drools
  *
  * To be replaced by picketlink-idm-drools
  *
@@ -51,11 +50,11 @@ public class PicketLinkCamelDroolsVoter implements PermissionVoter {
     @Inject
     private IdentityManager identityManager;
 
-    public PicketLinkCamelDroolsVoter(KieBase ruleSet){
+    public PicketLinkCamelDroolsVoter(KieBase ruleSet) {
         this.securityRuleBase = ruleSet;
     }
 
-    public void setPartitionManager(PartitionManager partitionManager){
+    public void setPartitionManager(PartitionManager partitionManager) {
         this.partitionManager = partitionManager;
     }
 
@@ -68,7 +67,7 @@ public class PicketLinkCamelDroolsVoter implements PermissionVoter {
 
         KieSession session = securityRuleBase.newKieSession();
 
-        PermissionCheck check = new PermissionCheck(partitionManager,recipient,resource, operation);
+        PermissionCheck check = new PermissionCheck(partitionManager, recipient, resource, operation);
 
         session.insert(camelMessage);
 

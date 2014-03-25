@@ -66,7 +66,7 @@ public class PicketLinkCamelCDI {
 
     @Produces
     public KieSession createKieSession() {
-        if(kSession == null){
+        if (kSession == null) {
             kieContainer = getKieContainer();
             return kieContainer.newKieSession("ksession1");
         }
@@ -86,24 +86,21 @@ public class PicketLinkCamelCDI {
             KieServices ks = KieServices.Factory.get();
 
             kieContainer = ks.getKieClasspathContainer();
-            /*KieSession kSession = kieContainer.newKieSession("ksession2");
-
-            KieRepository kr = ks.getRepository();
-
-            InputStream in = getClass().getClassLoader().getResourceAsStream(SECURITY_RULES);
-
-            if(in == null){
-                throw new RuntimeException("camel-security.drl not located");
-            }
-            KieResources kieResources = ks.getResources();
-            Resource resource = kieResources.newInputStreamResource(in);
-            if(resource == null){
-                throw new RuntimeException("Kie Resource not found");
-            }
-
-            KieModule kModule = kr.addKieModule(resource);
-
-            kieContainer = ks.newKieContainer(kModule.getReleaseId());*/
+            /*
+             * KieSession kSession = kieContainer.newKieSession("ksession2");
+             *
+             * KieRepository kr = ks.getRepository();
+             *
+             * InputStream in = getClass().getClassLoader().getResourceAsStream(SECURITY_RULES);
+             *
+             * if(in == null){ throw new RuntimeException("camel-security.drl not located"); } KieResources kieResources =
+             * ks.getResources(); Resource resource = kieResources.newInputStreamResource(in); if(resource == null){ throw new
+             * RuntimeException("Kie Resource not found"); }
+             *
+             * KieModule kModule = kr.addKieModule(resource);
+             *
+             * kieContainer = ks.newKieContainer(kModule.getReleaseId());
+             */
         }
         return kieContainer;
     }

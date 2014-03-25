@@ -32,6 +32,7 @@ import java.security.Principal;
 
 /**
  * An implementation of {@link org.apache.camel.spi.AuthorizationPolicy} using PicketLink
+ *
  * @author Anil Saldhana
  * @since March 21, 2014
  */
@@ -40,7 +41,8 @@ public class PicketLinkCamelAuthorizationPolicy implements AuthorizationPolicy {
     protected Identity identity;
 
     /**
-     * @see org.apache.camel.spi.AuthorizationPolicy#beforeWrap(org.apache.camel.spi.RouteContext, org.apache.camel.model.ProcessorDefinition)
+     * @see org.apache.camel.spi.AuthorizationPolicy#beforeWrap(org.apache.camel.spi.RouteContext,
+     *      org.apache.camel.model.ProcessorDefinition)
      */
     @Override
     public void beforeWrap(RouteContext routeContext, ProcessorDefinition<?> processorDefinition) {
@@ -54,8 +56,8 @@ public class PicketLinkCamelAuthorizationPolicy implements AuthorizationPolicy {
         return new PicketLinkAuthorizationProcessor(processor);
     }
 
-    public class PicketLinkAuthorizationProcessor extends DelegateProcessor{
-        public PicketLinkAuthorizationProcessor(Processor delegate){
+    public class PicketLinkAuthorizationProcessor extends DelegateProcessor {
+        public PicketLinkAuthorizationProcessor(Processor delegate) {
             super(delegate);
         }
 
@@ -66,16 +68,16 @@ public class PicketLinkCamelAuthorizationPolicy implements AuthorizationPolicy {
         }
     }
 
-    protected void preprocess(Exchange exchange) throws Exception{
-        //Are we authenticated?
+    protected void preprocess(Exchange exchange) throws Exception {
+        // Are we authenticated?
         Principal principal = (Principal) exchange.getIn().getHeader(PicketLinkCamelProcessor.PRINCIPAL_KEY);
-        if(principal == null){
-            throw new CamelAuthorizationException("Unauthenticated.",exchange);
+        if (principal == null) {
+            throw new CamelAuthorizationException("Unauthenticated.", exchange);
         }
-        //Now we look at the authorization
+        // Now we look at the authorization
         boolean hasPermission = identity.hasPermission(exchange, "process");
-        if(!hasPermission){
-            throw new CamelAuthorizationException("UnAuthorized.",exchange);
+        if (!hasPermission) {
+            throw new CamelAuthorizationException("UnAuthorized.", exchange);
         }
     }
 }

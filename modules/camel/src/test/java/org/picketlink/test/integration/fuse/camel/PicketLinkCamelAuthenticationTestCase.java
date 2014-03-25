@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Unit Test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor}
- * for authentication use cases
+ * Unit Test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor} for authentication use cases
+ *
  * @author Anil Saldhana
  * @since March 25, 2014
  */
@@ -120,7 +120,7 @@ public class PicketLinkCamelAuthenticationTestCase extends PicketLinkCamelBaseTe
         } catch (Exception e) {
             assertTrue(e.getCause() instanceof LoginException);
         }
-        try{
+        try {
             producerTemplate.sendBodyAndHeaders("electronics order", electronicsHeaders);
         } catch (Exception e) {
             assertTrue(e.getCause() instanceof LoginException);

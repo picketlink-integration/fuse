@@ -29,6 +29,7 @@ import java.util.Map;
 
 /**
  * Unit test the {@link org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelAuthorizationPolicy}
+ *
  * @author Anil Saldhana
  * @since March 21, 2014
  */
@@ -84,9 +85,9 @@ public class PicketLinkCamelAuthorizationTestCase extends PicketLinkCamelBaseTes
         headers.put("username", "admin");
         headers.put("password", "adminpwd");
 
-        try{
+        try {
             producerTemplate.sendBodyAndHeaders("Test message", headers);
-        }catch(Exception e){
+        } catch (Exception e) {
             assertTrue(e.getCause() instanceof CamelAuthorizationException);
         }
     }
@@ -98,9 +99,7 @@ public class PicketLinkCamelAuthorizationTestCase extends PicketLinkCamelBaseTes
             public void configure() throws Exception {
                 assertNotNull(picketLinkCamelProcessor);
 
-                from("file://source").process(picketLinkCamelProcessor)
-                        .policy(picketLinkCamelAuthorizationPolicy)
-                        .choice()
+                from("file://source").process(picketLinkCamelProcessor).policy(picketLinkCamelAuthorizationPolicy).choice()
                         .when(simple("${in.header.FileName} contains 'grocery.txt'")).to("file://grocery")
                         .when(simple("${in.header.FileName} contains 'electronics.txt'")).to("file://electronics").otherwise()
                         .to("log://lowpriority");

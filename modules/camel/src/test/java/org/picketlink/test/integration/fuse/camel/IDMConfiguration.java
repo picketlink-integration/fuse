@@ -24,8 +24,7 @@ import org.picketlink.idm.config.IdentityConfiguration;
 import org.picketlink.idm.config.IdentityConfigurationBuilder;
 
 /**
- * A Simple bean to create the PicketLink IDM configuration.
- * By Default, the file store will be used to store identities
+ * A Simple bean to create the PicketLink IDM configuration. By Default, the file store will be used to store identities
  *
  * @author Anil Saldhana
  * @since March 20, 2014
@@ -41,14 +40,11 @@ public class IDMConfiguration {
         }
         return identityConfig;
     }
+
     private void initConfig() {
         IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
 
-        builder
-                .named("default")
-                .stores()
-                .file()
-                .supportAllFeatures();
+        builder.named("default").stores().file().supportAllFeatures();
 
         identityConfig = builder.build();
     }

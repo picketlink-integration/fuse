@@ -38,8 +38,7 @@ public class PermissionCheck {
 
     private boolean granted = false;
 
-    public PermissionCheck(PartitionManager partitionManager,IdentityType identityType,
-                           Object resource, String operation) {
+    public PermissionCheck(PartitionManager partitionManager, IdentityType identityType, Object resource, String operation) {
         this.identityType = identityType;
         this.resource = resource;
         this.operation = operation;
@@ -63,12 +62,11 @@ public class PermissionCheck {
         return granted;
     }
 
-    public boolean hasRole(String role){
+    public boolean hasRole(String role) {
         Role storedRole = BasicModel.getRole(identityManager, role);
-        if(storedRole == null){
+        if (storedRole == null) {
             throw new RuntimeException("Role not found: " + role);
         }
-        return BasicModel.hasRole(relationshipManager,identityType,storedRole);
+        return BasicModel.hasRole(relationshipManager, identityType, storedRole);
     }
 }
-

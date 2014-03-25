@@ -36,6 +36,7 @@ import org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelDrools
 
 /**
  * Create some users
+ *
  * @author Anil Saldhana
  * @since March 20, 2014
  */
@@ -53,14 +54,14 @@ public class CreateDefaultUser {
         identityManager.add(admin);
         identityManager.updateCredential(admin, new Password("adminpwd"));
 
-        //Create Sales User
+        // Create Sales User
         User sales = new User("sales");
         sales.setEmail("sales@acme.com");
 
         identityManager.add(sales);
         identityManager.updateCredential(sales, new Password("salespwd"));
 
-        //Let create roles
+        // Let create roles
 
         // Create role "manager"
         Role managerRole = new Role("manager");
@@ -72,8 +73,8 @@ public class CreateDefaultUser {
 
         RelationshipManager relationshipManager = this.partitionManager.createRelationshipManager();
 
-        BasicModel.grantRole(relationshipManager,admin,managerRole);
-        BasicModel.grantRole(relationshipManager,sales,salesRole);
+        BasicModel.grantRole(relationshipManager, admin, managerRole);
+        BasicModel.grantRole(relationshipManager, sales, salesRole);
     }
 
     public void printHello(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
