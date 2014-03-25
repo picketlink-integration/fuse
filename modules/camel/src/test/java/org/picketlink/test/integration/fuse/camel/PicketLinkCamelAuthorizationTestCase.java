@@ -17,15 +17,16 @@
  */
 package org.picketlink.test.integration.fuse.camel;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import org.apache.camel.CamelAuthorizationException;
 import org.apache.camel.builder.RouteBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelAuthorizationPolicy;
-
-import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Unit test the {@link org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelAuthorizationPolicy}

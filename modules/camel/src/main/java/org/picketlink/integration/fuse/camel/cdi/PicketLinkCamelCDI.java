@@ -17,19 +17,12 @@
  */
 package org.picketlink.integration.fuse.camel.cdi;
 
-import java.io.InputStream;
-
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
-import org.kie.api.builder.KieModule;
-import org.kie.api.builder.KieRepository;
-import org.kie.api.cdi.KSession;
-import org.kie.api.io.KieResources;
-import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.picketlink.idm.PartitionManager;

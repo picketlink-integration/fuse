@@ -17,21 +17,18 @@
  */
 package org.picketlink.integration.fuse.camel.authorization;
 
+import java.io.Serializable;
+
+import javax.inject.Inject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
-import org.picketlink.Identity;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
-import org.picketlink.idm.RelationshipManager;
 import org.picketlink.idm.model.IdentityType;
 import org.picketlink.idm.permission.spi.PermissionVoter;
-
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * An implementation of {@link org.picketlink.idm.permission.spi.PermissionVoter} based on Drools

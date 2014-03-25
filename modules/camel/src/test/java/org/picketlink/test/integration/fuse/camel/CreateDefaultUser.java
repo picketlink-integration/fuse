@@ -32,7 +32,6 @@ import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.basic.BasicModel;
 import org.picketlink.idm.model.basic.Role;
 import org.picketlink.idm.model.basic.User;
-import org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelDroolsVoter;
 
 /**
  * Create some users

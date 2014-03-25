@@ -17,15 +17,14 @@
  */
 package org.picketlink.test.integration.fuse.camel;
 
-import org.apache.camel.builder.AdviceWithRouteBuilder;
-import org.apache.camel.builder.RouteBuilder;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import javax.security.auth.login.LoginException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.security.auth.login.LoginException;
+
+import org.apache.camel.builder.RouteBuilder;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Unit Test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor} for authentication use cases
@@ -35,18 +34,6 @@ import java.util.Map;
  */
 @RunWith(WeldJunitTestRunner.class)
 public class PicketLinkCamelAuthenticationTestCase extends PicketLinkCamelBaseTestCase {
-
-    @Before
-    public void setup() throws Exception {
-        super.setUp();
-        context.getRouteDefinitions().get(0).adviceWith(context, new AdviceWithRouteBuilder() {
-            @Override
-            public void configure() throws Exception {
-                replaceFromWith("direct:start");
-                mockEndpointsAndSkip("*");
-            }
-        });
-    }
 
     @Test
     public void sendGroceryOrder() throws Exception {

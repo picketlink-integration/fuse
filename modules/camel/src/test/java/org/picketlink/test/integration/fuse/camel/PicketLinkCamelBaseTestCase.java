@@ -17,22 +17,15 @@
  */
 package org.picketlink.test.integration.fuse.camel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
-import javax.security.auth.login.LoginException;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
 
 /**
@@ -43,6 +36,8 @@ import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
  *
  * @see org.picketlink.test.integration.fuse.camel.PicketLinkCamelAuthenticationTestCase
  * @see org.picketlink.test.integration.fuse.camel.PicketLinkCamelAuthorizationTestCase
+ *
+ * This base class was introduced to get over the Weld AmbiguousResolutionException.
  *
  * @author Anil Saldhana
  * @since March 20, 2014

@@ -17,18 +17,19 @@
  */
 package org.picketlink.integration.fuse.camel.authorization;
 
+import java.security.Principal;
+
+import javax.inject.Inject;
+
 import org.apache.camel.CamelAuthorizationException;
-import org.apache.camel.processor.DelegateProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.model.ProcessorDefinition;
+import org.apache.camel.processor.DelegateProcessor;
 import org.apache.camel.spi.AuthorizationPolicy;
 import org.apache.camel.spi.RouteContext;
 import org.picketlink.Identity;
 import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
-
-import javax.inject.Inject;
-import java.security.Principal;
 
 /**
  * An implementation of {@link org.apache.camel.spi.AuthorizationPolicy} using PicketLink

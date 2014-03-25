@@ -22,7 +22,6 @@ import org.picketlink.idm.PartitionManager;
 import org.picketlink.idm.RelationshipManager;
 import org.picketlink.idm.model.IdentityType;
 import org.picketlink.idm.model.basic.BasicModel;
-import org.picketlink.idm.model.basic.Group;
 import org.picketlink.idm.model.basic.Role;
 
 /**

@@ -17,6 +17,8 @@
  */
 package org.picketlink.integration.fuse.camel;
 
+import java.security.Principal;
+
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
 
@@ -28,8 +30,6 @@ import org.picketlink.credential.DefaultLoginCredentials;
 import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.Account;
 import org.picketlink.idm.model.basic.User;
-
-import java.security.Principal;
 
 /**
  * Implementation of {@link org.apache.camel.Processor} using PicketLink
