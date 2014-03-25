@@ -20,8 +20,10 @@ package org.picketlink.integration.fuse.camel.authorization;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
 import org.picketlink.idm.RelationshipManager;
+import org.picketlink.idm.model.Account;
 import org.picketlink.idm.model.IdentityType;
 import org.picketlink.idm.model.basic.BasicModel;
+import org.picketlink.idm.model.basic.Group;
 import org.picketlink.idm.model.basic.Role;
 
 /**
@@ -61,11 +63,27 @@ public class PermissionCheck {
         return granted;
     }
 
+    public IdentityManager getIdentityManager() {
+        return identityManager;
+    }
+
+    public RelationshipManager getRelationshipManager() {
+        return relationshipManager;
+    }
+
     public boolean hasRole(String role) {
         Role storedRole = BasicModel.getRole(identityManager, role);
         if (storedRole == null) {
             throw new RuntimeException("Role not found: " + role);
         }
         return BasicModel.hasRole(relationshipManager, identityType, storedRole);
+    }
+
+    public boolean isMember(String groupName){
+        Group storedGroup = BasicModel.getGroup(identityManager,groupName);
+        if(storedGroup == null){
+            throw new RuntimeException(groupName + " does not exist");
+        }
+        return BasicModel.isMember(relationshipManager,(Account)identityType,storedGroup);
     }
 }

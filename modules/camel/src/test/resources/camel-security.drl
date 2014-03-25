@@ -17,12 +17,12 @@ then
 end
 
 
-rule MessageAuthorizationRuleForElectronicsOrderForManagers
+rule MessageAuthorizationRuleForElectronicsOrderForAdministrators
   no-loop
   activation-group "permissions"
 when
   camelMessage:Message(body=='electronics order')
-  check: PermissionCheck(hasRole('manager') == true, operation == "process", granted == false)
+  check: PermissionCheck(isMember('administrators') == true, operation == "process", granted == false)
 then
   check.grant();
 end

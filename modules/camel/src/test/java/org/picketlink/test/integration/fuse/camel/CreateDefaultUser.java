@@ -30,8 +30,11 @@ import org.picketlink.idm.PartitionManager;
 import org.picketlink.idm.RelationshipManager;
 import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.basic.BasicModel;
+import org.picketlink.idm.model.basic.Group;
 import org.picketlink.idm.model.basic.Role;
 import org.picketlink.idm.model.basic.User;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Create some users
@@ -74,6 +77,18 @@ public class CreateDefaultUser {
 
         BasicModel.grantRole(relationshipManager, admin, managerRole);
         BasicModel.grantRole(relationshipManager, sales, salesRole);
+
+
+        // Add some groups
+        identityManager.add(new Group("platform"));
+        identityManager.add(new Group("administrators"));
+
+        Group administrators = BasicModel.getGroup(identityManager,"administrators");
+        if(administrators == null){
+            throw new RuntimeException("Stored group administrators is null");
+        }
+
+        BasicModel.addToGroup(relationshipManager, admin, administrators);
     }
 
     public void printHello(@Observes ContainerInitialized event, @Parameters List<String> parameters) {

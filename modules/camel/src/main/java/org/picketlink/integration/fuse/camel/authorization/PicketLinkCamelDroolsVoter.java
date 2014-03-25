@@ -67,12 +67,6 @@ public class PicketLinkCamelDroolsVoter implements PermissionVoter {
 
         PermissionCheck check = new PermissionCheck(partitionManager, recipient, resource, operation);
 
-        IdentityManager idm = partitionManager.createIdentityManager(recipient.getPartition());
-        RelationshipManager relation = partitionManager.createRelationshipManager();
-
-        session.insert(idm);
-        session.insert(relation);
-
         session.insert(camelMessage);
         session.insert(partitionManager.createIdentityManager());
 
