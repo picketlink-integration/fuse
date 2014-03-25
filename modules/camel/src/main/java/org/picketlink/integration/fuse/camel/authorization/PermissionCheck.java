@@ -41,7 +41,7 @@ public class PermissionCheck {
         this.identityType = identityType;
         this.resource = resource;
         this.operation = operation;
-        this.identityManager = partitionManager.createIdentityManager();
+        this.identityManager = partitionManager.createIdentityManager(identityType.getPartition());
         this.relationshipManager = partitionManager.createRelationshipManager();
     }
 
