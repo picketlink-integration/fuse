@@ -2,7 +2,7 @@
    <parent>
       <groupId>org.picketlink.integration</groupId>
       <artifactId>picketlink-fuse-parent</artifactId>
-      <version>2.5.0-SNAPSHOT</version>
+      <version>2.6.0-SNAPSHOT</version>
       <relativePath>../../pom.xml</relativePath>
    </parent>
    <modelVersion>4.0.0</modelVersion>
@@ -25,6 +25,7 @@
         <version.picketlink.javaee.bom>2.6.0.CR1</version.picketlink.javaee.bom>
         <junit.version>4.10</junit.version>
         <weld.version>2.1.0.Final</weld.version>
+        <drools.version>6.0.0.CR4</drools.version>
     </properties>
    <organization>
       <name>JBoss Inc.</name>
@@ -96,6 +97,11 @@
          <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
       </dependency>
+       <dependency>
+           <groupId>org.drools</groupId>
+           <artifactId>drools-compiler</artifactId>
+           <version>${drools.version}</version>
+       </dependency>
        <dependency>
            <groupId>org.apache.camel</groupId>
            <artifactId>camel-core</artifactId>

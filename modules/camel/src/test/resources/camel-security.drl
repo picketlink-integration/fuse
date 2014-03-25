@@ -1,0 +1,28 @@
+package org.picketlink.integration.fuse.camel.cdi
+
+dialect 'mvel'
+
+
+import org.picketlink.integration.fuse.camel.authorization.PermissionCheck;
+import org.apache.camel.Message;
+
+rule MessageAuthorizationRuleForGroceryOrderForManagers
+  no-loop
+  activation-group "permissions"
+when
+  camelMessage:Message(body=='grocery order')
+  check: PermissionCheck(hasRole('manager') == true, operation == "process", granted == false)
+then
+  check.grant();
+end
+
+
+rule MessageAuthorizationRuleForElectronicsOrderForManagers
+  no-loop
+  activation-group "permissions"
+when
+  camelMessage:Message(body=='electronics order')
+  check: PermissionCheck(hasRole('manager') == true, operation == "process", granted == false)
+then
+  check.grant();
+end

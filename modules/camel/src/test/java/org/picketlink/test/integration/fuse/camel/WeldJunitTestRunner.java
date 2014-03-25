@@ -21,6 +21,10 @@ import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
+import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
+
+import javax.enterprise.inject.Instance;
+import java.util.Iterator;
 
 /**
  * A JUnit Runner capable of handling CDI Weld startup
@@ -45,6 +49,18 @@ public class WeldJunitTestRunner extends BlockJUnit4ClassRunner {
     }
     @Override
     protected Object createTest() throws Exception {
+
+        /*Instance<Object> instances = container.instance();
+
+        Iterator<Object> iterator = instances.iterator();
+        while(iterator.hasNext()){
+            Object object = iterator.next();
+
+            if(object.getClass() == PicketLinkCamelProcessor.class
+                    && klass == PicketLinkCamelProcessor.class){
+                return object;
+            }
+        }*/
         return container.instance().select(klass).get();
     }
 }

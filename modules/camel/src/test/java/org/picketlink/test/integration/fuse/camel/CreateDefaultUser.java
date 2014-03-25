@@ -17,20 +17,25 @@
  */
 package org.picketlink.test.integration.fuse.camel;
 
+import java.util.List;
+
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.jboss.weld.environment.se.bindings.Parameters;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
+import org.picketlink.idm.RelationshipManager;
 import org.picketlink.idm.credential.Password;
+import org.picketlink.idm.model.basic.BasicModel;
+import org.picketlink.idm.model.basic.Role;
 import org.picketlink.idm.model.basic.User;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.List;
+import org.picketlink.integration.fuse.camel.authorization.PicketLinkCamelDroolsVoter;
 
 /**
+ * Create some users
  * @author Anil Saldhana
  * @since March 20, 2014
  */
@@ -40,14 +45,37 @@ public class CreateDefaultUser {
     PartitionManager partitionManager;
 
     public void create() {
+        IdentityManager identityManager = partitionManager.createIdentityManager();
+
         User admin = new User("admin");
         admin.setEmail("admin@acme.com");
 
-        IdentityManager identityManager = partitionManager.createIdentityManager();
-
         identityManager.add(admin);
         identityManager.updateCredential(admin, new Password("adminpwd"));
+
+        //Create Sales User
+        User sales = new User("sales");
+        sales.setEmail("sales@acme.com");
+
+        identityManager.add(sales);
+        identityManager.updateCredential(sales, new Password("salespwd"));
+
+        //Let create roles
+
+        // Create role "manager"
+        Role managerRole = new Role("manager");
+        identityManager.add(managerRole);
+
+        // Create application role "sales"
+        Role salesRole = new Role("sales");
+        identityManager.add(salesRole);
+
+        RelationshipManager relationshipManager = this.partitionManager.createRelationshipManager();
+
+        BasicModel.grantRole(relationshipManager,admin,managerRole);
+        BasicModel.grantRole(relationshipManager,sales,salesRole);
     }
+
     public void printHello(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
         create();
         System.out.println("Default User created");

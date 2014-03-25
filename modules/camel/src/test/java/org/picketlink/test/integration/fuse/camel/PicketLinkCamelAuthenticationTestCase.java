@@ -17,53 +17,24 @@
  */
 package org.picketlink.test.integration.fuse.camel;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.security.auth.login.LoginException;
-
-import org.apache.camel.EndpointInject;
-import org.apache.camel.Produce;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.test.junit4.CamelTestSupport;
-import org.jboss.weld.environment.se.Weld;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor;
+
+import javax.security.auth.login.LoginException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Unit test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor}
- *
- * Example adapted from the ASLv2 licensed:
- * https://github.com/bibryam/camel-message-routing-examples/blob/master/routing-different-destinations
- *
+ * Unit Test the {@link org.picketlink.integration.fuse.camel.PicketLinkCamelProcessor}
+ * for authentication use cases
  * @author Anil Saldhana
- * @since March 20, 2014
+ * @since March 25, 2014
  */
 @RunWith(WeldJunitTestRunner.class)
-public class PicketLinkCamelProcessorUnitTestCase extends CamelTestSupport {
-    @Produce(uri = "direct:start")
-    protected ProducerTemplate producerTemplate;
-
-    @EndpointInject(uri = "mock:file:grocery")
-    private MockEndpoint mockGrocery;
-
-    @EndpointInject(uri = "mock:file:electronics")
-    private MockEndpoint mockElectronics;
-
-    @EndpointInject(uri = "mock:log:lowpriority")
-    private MockEndpoint mockOther;
-
-    private Weld weld;
-
-    @Inject
-    private PicketLinkCamelProcessor picketLinkCamelProcessor;
+public class PicketLinkCamelAuthenticationTestCase extends PicketLinkCamelBaseTestCase {
 
     @Before
     public void setup() throws Exception {
