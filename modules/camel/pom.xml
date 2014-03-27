@@ -81,13 +81,6 @@
            <artifactId>picketlink-idm-impl</artifactId>
        </dependency>
 
-       <!-- Import the PicketLink IDM Simple Schema, which provides some built-in JPA entities for
-   the sample model -->
-       <dependency>
-           <groupId>org.picketlink</groupId>
-           <artifactId>picketlink-idm-simple-schema</artifactId>
-       </dependency>
-
       <dependency>
          <groupId>org.jboss.logging</groupId>
          <artifactId>jboss-logging</artifactId>
